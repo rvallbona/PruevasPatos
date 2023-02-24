@@ -6,6 +6,7 @@ public class DuckScript : MonoBehaviour
 {
     Rigidbody rb;
     [SerializeField] GameObject[] destinations;
+    [SerializeField] GameObject magnet;
     [SerializeField] float speed = 5f;
     int actPosition = 0;
     int nextPosition = 0;
@@ -23,6 +24,11 @@ public class DuckScript : MonoBehaviour
         {
             CalculateNextPoint();
             GoToPoint(destinations[nextPosition].transform);
+        }
+        else if (grabed)
+        {
+            this.gameObject.transform.position = magnet.transform.position + new Vector3(0,-1,0);
+            rb.useGravity = false;
         }
     }
     void GoToPoint(Transform nextPoint)
