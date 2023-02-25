@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class DuckScript : MonoBehaviour
 {
-    Rigidbody rb;
+    [Header("Duck Settings")]
+    [SerializeField] float speed = 5f;
+    [Header("Duck Route Settings")]
+    [SerializeField] int startPos = 0;
     [SerializeField] GameObject[] destinations;
     [SerializeField] GameObject magnet;
-    [SerializeField] float speed = 5f;
     int actPosition = 0;
     int nextPosition = 0;
-    [SerializeField] int startPos = 0;
     bool grabed = false;
+    Rigidbody rb;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -27,8 +29,7 @@ public class DuckScript : MonoBehaviour
         }
         else if (grabed)
         {
-            this.gameObject.transform.position = magnet.transform.position + new Vector3(0,-1,0);
-            rb.useGravity = false;
+            CatchedDuck();
         }
     }
     void GoToPoint(Transform nextPoint)
@@ -41,13 +42,17 @@ public class DuckScript : MonoBehaviour
         if (Vector3.Distance(this.transform.position, destinations[nextPosition].transform.position) < 0.1f)
         {
             actPosition = nextPosition;
-            Debug.Log(actPosition);
             nextPosition += 3;
             if (nextPosition > destinations.Length - 1)
             {
                 nextPosition -= destinations.Length;
             }
         }
+    }
+    void CatchedDuck()
+    {
+        this.gameObject.transform.position = magnet.transform.position + new Vector3(0, -1, 0);
+        rb.useGravity = false;
     }
     public void LameDuck(Transform parent)
     {
