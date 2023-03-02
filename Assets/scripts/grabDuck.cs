@@ -11,7 +11,12 @@ public class grabDuck : MonoBehaviour
             duckScript.LameDuck(this.gameObject.transform);
             canGrab = false;
         }
-        else
+        else if(collision.collider.TryGetComponent<BombScript>(out BombScript bombScript) && canGrab)
+        {
+            bombScript.LameBomb(this.gameObject.transform);
+            canGrab = false;
+        }
+        else 
         {
             canGrab = true;
         }
